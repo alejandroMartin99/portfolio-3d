@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Global styles — minimalist / elegant aesthetic
+   Design tokens, typography, scroll setup
+   ========================================================================== */
+
+:root {
+  /* Colors — minimal monochrome with a single hot accent */
+  --bg: #0a0b0f;
+  --bg-elev: #0f1117;
+  --fg: #f5f5f7;
+  --fg-muted: #8b8c91;
+  --fg-dim: #4b4d55;
+  --line: rgba(255, 255, 255, 0.08);
+  --accent: #ff5b3a;        /* afterburner orange — the only color */
+  --accent-soft: rgba(255, 91, 58, 0.12);
+
+  /* Typography */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Layout */
+  --container: 1280px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+
+  /* Easing */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body {
+  /* Lenis controls scroll, but we keep native fallback */
+  min-height: 100vh;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Scrollbar — subtle */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--fg-dim); border-radius: 4px; }
+
+/* Headings */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+h1 { font-size: clamp(3rem, 8vw, 7rem); font-weight: 300; }
+h2 { font-size: clamp(2rem, 5vw, 4rem); font-weight: 400; }
+h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 500; }
+
+p { margin: 0; color: var(--fg-muted); max-width: 60ch; }
+
+a {
+  color: var(--fg);
+  text-decoration: none;
+  transition: color 0.3s var(--ease-out);
+  &:hover { color: var(--accent); }
+}
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+}
+
+/* Utility */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.mono { font-family: var(--font-mono); }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Sections share the same vertical rhythm */
+section {
+  position: relative;
+  padding: clamp(6rem, 12vh, 10rem) 0;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
