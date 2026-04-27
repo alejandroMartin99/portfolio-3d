@@ -55,17 +55,17 @@ export const profile = {
 export const education: Education[] = [
   {
     institution: 'Universidad Politécnica de Madrid (UPM)',
-    degree: 'B.Eng. Aerospace Engineering — Aerospace Propulsion',
+    degree: 'Bachelor of Engineering (B.Eng.) in Aerospace Engineering — Aerospace Propulsion',
     period: '2017 — 2021',
     highlights: [
-      'GPA 7.01/10',
-      'Final thesis: Big-Data techniques applied to arrivals management at Barcelona-El Prat (LEBL) — graded 10/10',
+      'GPA: 7.01/10',
+      'Final thesis: Big Data techniques applied to arrivals management at Barcelona-El Prat (LEBL) — graded 10/10',
       'CFD & engineering software: CATIA V5, MATLAB, ANSYS Fluent, XFLR'
     ]
   },
   {
     institution: 'Universidad Europea',
-    degree: "M.Eng. Aeronautical Engineering (Habilitante)",
+    degree: "Master’s Degree in Aeronautical Engineering (qualifying degree for regulated profession)",
     period: '2022 — 2023',
     highlights: ['Completed in parallel with full-time engineering role at INECO']
   }
