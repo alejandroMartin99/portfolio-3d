@@ -182,6 +182,7 @@ export const sideProjects: SideProject[] = [
       'A personal finance tracker that aggregates accounts and visualises spending patterns. Built to scratch a personal itch and explore client-side data viz.',
     stack: ['Python','Angular','Supabase','Render','Vercel'], // TODO: confirm stack
     demo: 'https://banka-app-tracker.vercel.app/login',
+    repo: 'https://github.com/alejandroMartin99/BankaAppTracker',
     visual: 'finance'
   },
   {
@@ -191,6 +192,7 @@ export const sideProjects: SideProject[] = [
       'Fitness companion app to log workouts, track progressive overload and surface trends across training cycles.',
     stack: ['Angular', 'TypeScript','Supabase','Render','Vercel'], // TODO: confirm stack
     demo: 'https://gymio-kappa.vercel.app/login',
+    repo: 'https://github.com/alejandroMartin99/Gymio',
     visual: 'fitness'
   },
   {
@@ -200,6 +202,7 @@ export const sideProjects: SideProject[] = [
       'Travel platform — discover, plan and share trips. Live deployed product.',
     stack: ['Angular', 'TypeScript'], // TODO: confirm stack
     demo: 'https://endless-travels.com/',
+    repo: 'https://github.com/alejandroMartin99/endless-travels',
     visual: 'travel'
   }
 ];
