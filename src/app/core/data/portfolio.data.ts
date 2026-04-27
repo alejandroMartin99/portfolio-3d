@@ -42,7 +42,7 @@ export interface ContactLink {
 export const profile = {
   name: 'Alejandro Martín Iglesias',
   shortName: 'Alejandro',
-  headline: 'Aerospace Engineer × Data × Frontend',
+  headline: 'Aerospace Engineer | Data Scientist × Data Analyst × Front-End Developer',
   location: 'Madrid, Spain',
   intro: `I’m an aerospace engineer who builds software and data systems
   for the aviation industry. I started designing engines and ended up writing
@@ -180,8 +180,8 @@ export const sideProjects: SideProject[] = [
     tagline: 'Personal banking & expense tracking',
     description:
       'A personal finance tracker that aggregates accounts and visualises spending patterns. Built to scratch a personal itch and explore client-side data viz.',
-    stack: ['Angular', 'TypeScript', 'Charting'], // TODO: confirm stack
-    repo: 'https://github.com/alejandroMartin99/BankaAppTracker',
+    stack: ['Python','Angular','Supabase','Render','Vercel'], // TODO: confirm stack
+    demo: 'https://banka-app-tracker.vercel.app/login',
     visual: 'finance'
   },
   {
@@ -189,8 +189,8 @@ export const sideProjects: SideProject[] = [
     tagline: 'Workout & training tracker',
     description:
       'Fitness companion app to log workouts, track progressive overload and surface trends across training cycles.',
-    stack: ['Angular', 'TypeScript'], // TODO: confirm stack
-    repo: 'https://github.com/alejandroMartin99/Gymio',
+    stack: ['Angular', 'TypeScript','Supabase','Render','Vercel'], // TODO: confirm stack
+    demo: 'https://gymio-kappa.vercel.app/login',
     visual: 'fitness'
   },
   {
