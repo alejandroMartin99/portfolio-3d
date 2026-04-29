@@ -63,21 +63,21 @@ export const bio = {
   eyebrow: 'About',
   title: 'Senior Engineer at the intersection of aerospace, data and AI.',
   paragraphs: [
-    `I’m an aerospace engineer who fell for data. What started as a thesis
+    `Aerospace engineer turned data and AI specialist. I build systems
+    that turn complex, real-world data into decisions. What started as a thesis
     on big-data techniques for airport arrivals became a five-year career
     turning aviation’s mountain of unstructured data into models, dashboards
     and interfaces that operators actually trust in real time.`,
-    `Today I work as a Senior Engineer at <strong>Indra</strong>, where I
-    lead AI-driven projects integrating LLMs, RAG pipelines and agentic
-    workflows into industrial-grade products. I also collaborate on
-    <strong>SESAR</strong>, a European research programme, and on
-    Microsoft <strong>Fabric</strong> integrations for large-scale data
-    platforms.`,
-    `Before that I led the Angular front-end of <strong>eMIT</strong> on
-    the Eurofighter programme at Bertrandt for Airbus, and built ML and
-    data pipelines for ENAIRE air-traffic operations at INECO. I move
-    comfortably between aerospace engineering, data science and
-    front-end — and I look for problems where the three meet.`
+    `Senior Engineer at <strong>Indra</strong>, delivering AI products
+    with LLMs, RAG pipelines and scalable data platforms. Contributor to
+    <strong>SESAR</strong> programmes, working on ATM data models,
+    trajectory prediction and decision-support systems. Experience with
+    Microsoft <strong>Fabric</strong> and distributed data architectures.`,
+    `Previously at <strong>INECO</strong> and <strong>Bertrandt</strong>,
+    delivering solutions for Airbus, ENAIRE and SESAR — spanning ML
+    models (time-series forecasting, anomaly detection) and data
+    pipelines on large-scale aviation datasets. I operate where
+    aerospace, data and software meet.`
   ],
   highlights: [
     { label: 'Years in industry', value: '5+' },

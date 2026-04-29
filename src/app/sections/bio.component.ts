@@ -61,8 +61,7 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
       }
       .body {
         margin-top: 3rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
         gap: 2rem 3rem;
         max-width: 100%;
       }

@@ -47,7 +47,7 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
               <div class="proj-links">
                 @if (p.demo) {
                   <a [href]="p.demo" target="_blank" rel="noopener" class="cta primary">
-                    <span>Open Banka</span>
+                    <span>Live</span>
                     <span aria-hidden="true">↗</span>
                   </a>
                 }
@@ -108,7 +108,7 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
                 <div class="proj-links">
                   @if (p.demo) {
                     <a [href]="p.demo" target="_blank" rel="noopener" class="cta primary">
-                      <span>Live demo</span>
+                      <span>Live</span>
                       <span aria-hidden="true">↗</span>
                     </a>
                   }
