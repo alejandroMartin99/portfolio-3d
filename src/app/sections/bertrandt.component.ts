@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { experience } from '@core/data/portfolio.data';
 import { RevealDirective } from '@shared/directives/reveal.directive';
 
+/**
+ * Bertrandt — split into two programmes: Eurofighter (lead frontend) and A400M.
+ */
 @Component({
   selector: 'app-bertrandt',
   standalone: true,
@@ -10,34 +13,55 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
   template: `
     <section id="bertrandt" class="bertrandt">
       <div class="container content">
-        <p class="eyebrow" appReveal>05 / Eurofighter</p>
+        <p class="eyebrow" appReveal>07 / Bertrandt — Airbus</p>
         <h2 appReveal>
-          Now I write code that keeps fighters in the air.
+          Code that keeps fighters<br/>
+          <em>and transports</em> in the air.
         </h2>
         <p class="lede" appReveal>
-          As Aerospace Data Management Engineer at Bertrandt, I lead the front-end
-          development of <strong class="accent">eMIT</strong>, the maintenance interface
-          used in the <strong>Eurofighter</strong> programme. Same role as before — but now
-          the airframe and the codebase belong to the same engineer.
+          Two and a half years at Bertrandt for Airbus. Two parallel
+          programmes: the <strong class="accent">Eurofighter</strong> maintenance
+          interface, and the <strong class="accent">A400M</strong> retrofit
+          tracking system. Same codebase mindset — different airframes.
         </p>
 
-        <article class="role-card" appReveal>
-          <header>
-            <h3>{{ role.role }}</h3>
-            <p class="mono meta">{{ role.company }} · {{ role.client }} · {{ role.period }}</p>
-            <p class="mono location">{{ role.location }}</p>
-          </header>
-          <ul>
-            @for (b of role.bullets; track b) {
-              <li>{{ b }}</li>
-            }
-          </ul>
-          <div class="tags">
-            @for (s of role.stack; track s) {
-              <span class="tag mono">{{ s }}</span>
-            }
-          </div>
-        </article>
+        <div class="programmes">
+          <article class="prog featured" appReveal>
+            <header>
+              <p class="badge mono">Programme · Eurofighter</p>
+              <h3>{{ eurofighter.role }}</h3>
+              <p class="meta mono">{{ eurofighter.client }} · {{ eurofighter.period }}</p>
+            </header>
+            <ul>
+              @for (b of eurofighter.bullets; track b) {
+                <li>{{ b }}</li>
+              }
+            </ul>
+            <div class="tags">
+              @for (s of eurofighter.stack; track s) {
+                <span class="tag mono">{{ s }}</span>
+              }
+            </div>
+          </article>
+
+          <article class="prog" appReveal>
+            <header>
+              <p class="badge mono">Programme · A400M</p>
+              <h3>{{ a400m.role }}</h3>
+              <p class="meta mono">{{ a400m.client }} · {{ a400m.period }}</p>
+            </header>
+            <ul>
+              @for (b of a400m.bullets; track b) {
+                <li>{{ b }}</li>
+              }
+            </ul>
+            <div class="tags">
+              @for (s of a400m.stack; track s) {
+                <span class="tag mono">{{ s }}</span>
+              }
+            </div>
+          </article>
+        </div>
 
         <div class="hero-quote" appReveal>
           <p>
@@ -51,6 +75,9 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
   `,
   styles: [
     `
+      :host { display: block; }
+      h2 { max-width: 22ch; margin-top: 0.5rem; }
+      em { font-style: italic; font-weight: 300; color: var(--accent); }
       .lede {
         margin-top: 1.5rem;
         font-size: 1.2rem;
@@ -59,44 +86,70 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         line-height: 1.55;
       }
       .accent { color: var(--accent); font-weight: 500; }
-      .role-card {
+      strong { color: var(--fg); font-weight: 500; }
+
+      .programmes {
         margin-top: 4rem;
-        padding: 2.5rem;
-        border: 1px solid var(--accent);
-        border-radius: 4px;
-        background: linear-gradient(180deg, var(--accent-soft) 0%, transparent 100%);
-        position: relative;
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 1.5rem;
       }
-      .role-card::before {
+      @media (max-width: 980px) {
+        .programmes { grid-template-columns: 1fr; }
+      }
+
+      .prog {
+        padding: 2.25rem 2.25rem;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--bg-elev);
+        position: relative;
+        transition: border-color 0.3s ease;
+      }
+      .prog:hover { border-color: rgba(255, 91, 58, 0.4); }
+
+      .prog.featured {
+        border-color: var(--accent);
+        background: linear-gradient(180deg, var(--accent-soft) 0%, transparent 100%);
+      }
+      .prog.featured::before {
         content: '';
         position: absolute;
         top: -1px; left: -1px; right: -1px;
         height: 2px;
         background: var(--accent);
       }
-      header h3 { font-size: 1.4rem; }
+
+      .badge {
+        font-size: 0.66rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      header h3 {
+        margin-top: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.3;
+      }
       .meta {
         margin-top: 0.5rem;
-        color: var(--fg);
-        font-size: 0.8rem;
-        letter-spacing: 0.05em;
-      }
-      .location {
         color: var(--fg-muted);
-        font-size: 0.72rem;
+        font-size: 0.74rem;
         letter-spacing: 0.05em;
       }
+
       ul {
-        margin: 1.75rem 0;
+        margin: 1.5rem 0;
         padding: 0;
         list-style: none;
       }
       li {
         position: relative;
-        padding-left: 1.2rem;
+        padding-left: 1.1rem;
         color: var(--fg-muted);
-        margin-bottom: 0.6rem;
-        font-size: 0.97rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.93rem;
         line-height: 1.55;
       }
       li::before {
@@ -107,20 +160,25 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         width: 8px;
         height: 1px;
         background: var(--accent);
+        opacity: 0.7;
       }
+
       .tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: 0.4rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--line);
       }
       .tag {
-        font-size: 0.7rem;
-        padding: 0.3rem 0.7rem;
+        font-size: 0.66rem;
+        padding: 0.25rem 0.6rem;
         border: 1px solid var(--line);
         border-radius: 999px;
-        color: var(--fg);
+        color: var(--fg-muted);
         letter-spacing: 0.05em;
       }
+
       .hero-quote {
         margin-top: 5rem;
         padding-top: 3rem;
@@ -145,5 +203,10 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
   ]
 })
 export class BertrandtComponent {
-  readonly role = experience.find((r) => r.company === 'Bertrandt Group')!;
+  readonly eurofighter = experience.find((r) =>
+    r.company === 'Bertrandt Group' && r.client?.includes('Eurofighter')
+  )!;
+  readonly a400m = experience.find((r) =>
+    r.company === 'Bertrandt Group' && r.client?.includes('A400M')
+  )!;
 }

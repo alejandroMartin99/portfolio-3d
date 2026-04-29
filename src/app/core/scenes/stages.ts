@@ -58,6 +58,9 @@ export interface StageBuilder {
 /*  00 · HERO — drifting starfield + ring "horizon"                            */
 /* -------------------------------------------------------------------------- */
 
+// New Z layout (matches reordered narrative):
+// hero 0 → bio -10 → projects -22 → origins -36 → bridge -48 → ineco -62
+// → master -72 → bertrandt -86 → indra -100 → stack -114 → contact -128
 const heroStage: StageBuilder = {
   id: 'hero',
   z: 0,
@@ -132,7 +135,7 @@ const heroStage: StageBuilder = {
 
 const originsStage: StageBuilder = {
   id: 'origins',
-  z: -12,
+  z: -36,
   build: ({ scene, z }) => {
     const group = new Group();
     group.position.set(0, 0, z);
@@ -190,7 +193,7 @@ const originsStage: StageBuilder = {
 
 const bridgeStage: StageBuilder = {
   id: 'bridge',
-  z: -24,
+  z: -48,
   build: ({ scene, z }) => {
     const group = new Group();
     group.position.set(0, 0, z);
@@ -250,7 +253,7 @@ const bridgeStage: StageBuilder = {
 
 const inecoStage: StageBuilder = {
   id: 'ineco',
-  z: -36,
+  z: -62,
   build: ({ scene, z }) => {
     const group = new Group();
     group.position.set(0, 0, z);
@@ -300,7 +303,7 @@ const inecoStage: StageBuilder = {
 
 const masterStage: StageBuilder = {
   id: 'master',
-  z: -46,
+  z: -72,
   build: ({ scene, z }) => {
     const group = new Group();
     group.position.set(0, 0, z);
@@ -335,7 +338,7 @@ const masterStage: StageBuilder = {
 
 const bertrandtStage: StageBuilder = {
   id: 'bertrandt',
-  z: -60,
+  z: -86,
   build: ({ scene, z }) => {
     const group = new Group();
     group.position.set(0, 0, z);
@@ -453,7 +456,7 @@ const bertrandtStage: StageBuilder = {
 
 const stackStage: StageBuilder = {
   id: 'stack',
-  z: -76,
+  z: -114,
   build: ({ scene, z }) => {
     const group = new Group();
     group.position.set(0, 0, z);
@@ -517,7 +520,7 @@ const stackStage: StageBuilder = {
 
 const projectsStage: StageBuilder = {
   id: 'projects',
-  z: -92,
+  z: -22,
   build: ({ scene, z }) => {
     const group = new Group();
     group.position.set(0, 0, z);
@@ -578,7 +581,7 @@ const projectsStage: StageBuilder = {
 
 const contactStage: StageBuilder = {
   id: 'contact',
-  z: -108,
+  z: -128,
   build: ({ scene, z }) => {
     const group = new Group();
     group.position.set(0, 0, z);
@@ -632,18 +635,150 @@ function buildGrid(size: number, divisions: number): BufferGeometry {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Public registry                                                            */
+/*  01b · BIO — soft vertical pulse + horizon                                  */
+/* -------------------------------------------------------------------------- */
+
+const bioStage: StageBuilder = {
+  id: 'bio',
+  z: -10,
+  build: ({ scene, z }) => {
+    const group = new Group();
+    group.position.set(0, 0, z);
+
+    // Vertical accent line — feels like a beat between hero and projects
+    const line = new Mesh(
+      new PlaneGeometry(0.012, 5),
+      new MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0 })
+    );
+    group.add(line);
+
+    // Subtle halo of points
+    const haloCount = 60;
+    const positions = new Float32Array(haloCount * 3);
+    for (let i = 0; i < haloCount; i++) {
+      const r = 3 + Math.random() * 2;
+      const a = Math.random() * Math.PI * 2;
+      positions[i * 3 + 0] = Math.cos(a) * r;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 4;
+      positions[i * 3 + 2] = Math.sin(a) * r * 0.4;
+    }
+    const haloGeo = new BufferGeometry();
+    haloGeo.setAttribute('position', new BufferAttribute(positions, 3));
+    const halo = new Points(
+      haloGeo,
+      new PointsMaterial({
+        color: 0xffffff,
+        size: 0.04,
+        transparent: true,
+        opacity: 0.4,
+        blending: AdditiveBlending,
+        depthWrite: false
+      })
+    );
+    group.add(halo);
+
+    scene.add(group);
+
+    return ({ localProgress, elapsed }) => {
+      halo.rotation.y = elapsed * 0.08;
+      const t = Math.sin(localProgress * Math.PI);
+      (line.material as MeshBasicMaterial).opacity = 0.55 * t;
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*  08b · INDRA — neural-network-style cluster (AI focus)                      */
+/* -------------------------------------------------------------------------- */
+
+const indraStage: StageBuilder = {
+  id: 'indra',
+  z: -100,
+  build: ({ scene, z }) => {
+    const group = new Group();
+    group.position.set(0, 0, z);
+
+    // Neural lattice — three layers of nodes connected
+    const layers = 3;
+    const perLayer = 6;
+    const nodes: { mesh: Mesh; base: Vector3 }[] = [];
+    const linePts: number[] = [];
+
+    for (let l = 0; l < layers; l++) {
+      const x = (l - 1) * 1.6;
+      for (let i = 0; i < perLayer; i++) {
+        const y = (i - (perLayer - 1) / 2) * 0.6;
+        const node = new Mesh(
+          new SphereGeometry(0.06, 12, 12),
+          new MeshStandardMaterial({
+            color: l === 1 ? ACCENT : 0xffffff,
+            emissive: l === 1 ? ACCENT : 0x000000,
+            emissiveIntensity: l === 1 ? 0.7 : 0
+          })
+        );
+        node.position.set(x, y, 0);
+        group.add(node);
+        nodes.push({ mesh: node, base: new Vector3(x, y, 0) });
+      }
+    }
+
+    // Connect layers with lines (each → next)
+    for (let i = 0; i < perLayer; i++) {
+      for (let j = 0; j < perLayer; j++) {
+        // layer 0 → 1
+        linePts.push(
+          nodes[i]!.base.x, nodes[i]!.base.y, 0,
+          nodes[perLayer + j]!.base.x, nodes[perLayer + j]!.base.y, 0
+        );
+        // layer 1 → 2
+        linePts.push(
+          nodes[perLayer + i]!.base.x, nodes[perLayer + i]!.base.y, 0,
+          nodes[2 * perLayer + j]!.base.x, nodes[2 * perLayer + j]!.base.y, 0
+        );
+      }
+    }
+    const lineGeo = new BufferGeometry();
+    lineGeo.setAttribute('position', new Float32BufferAttribute(linePts, 3));
+    const lines = new LineSegments(
+      lineGeo,
+      new LineBasicMaterial({ color: FG, transparent: true, opacity: 0.08 })
+    );
+    group.add(lines);
+
+    scene.add(group);
+
+    return ({ elapsed, localProgress }) => {
+      group.rotation.y = elapsed * 0.12;
+      group.rotation.x = Math.sin(elapsed * 0.05) * 0.1;
+      // Pulse the central layer
+      nodes.forEach((n, idx) => {
+        const isCenter = idx >= perLayer && idx < perLayer * 2;
+        if (isCenter) {
+          const pulse = 1 + Math.sin(elapsed * 2 + idx) * 0.2;
+          n.mesh.scale.setScalar(pulse);
+        }
+        n.mesh.position.y = n.base.y + Math.sin(elapsed * 0.6 + idx) * 0.04;
+      });
+      (lines.material as LineBasicMaterial).opacity = 0.08 + 0.15 * localProgress;
+    };
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/*  Public registry — order matches the narrative                              */
 /* -------------------------------------------------------------------------- */
 
 export const stages: StageBuilder[] = [
   heroStage,
+  bioStage,
+  projectsStage,
   originsStage,
   bridgeStage,
   inecoStage,
   masterStage,
   bertrandtStage,
+  indraStage,
   stackStage,
-  projectsStage,
   contactStage
 ];
 

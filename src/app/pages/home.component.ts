@@ -5,13 +5,15 @@ import { SceneCanvasComponent } from '@shared/components/scene-canvas/scene-canv
 import { NavComponent } from '@shared/components/nav/nav.component';
 
 import { HeroComponent } from '@sections/hero.component';
+import { BioComponent } from '@sections/bio.component';
+import { ProjectsComponent } from '@sections/projects.component';
 import { OriginsComponent } from '@sections/origins.component';
 import { BridgeComponent } from '@sections/bridge.component';
 import { InecoComponent } from '@sections/ineco.component';
 import { MasterComponent } from '@sections/master.component';
 import { BertrandtComponent } from '@sections/bertrandt.component';
+import { IndraComponent } from '@sections/indra.component';
 import { StackComponent } from '@sections/stack.component';
-import { ProjectsComponent } from '@sections/projects.component';
 import { ContactComponent } from '@sections/contact.component';
 
 @Component({
@@ -22,13 +24,15 @@ import { ContactComponent } from '@sections/contact.component';
     SceneCanvasComponent,
     NavComponent,
     HeroComponent,
+    BioComponent,
+    ProjectsComponent,
     OriginsComponent,
     BridgeComponent,
     InecoComponent,
     MasterComponent,
     BertrandtComponent,
+    IndraComponent,
     StackComponent,
-    ProjectsComponent,
     ContactComponent
   ],
   template: `
@@ -37,13 +41,15 @@ import { ContactComponent } from '@sections/contact.component';
 
     <main class="page">
       <app-hero />
+      <app-bio />
+      <app-projects />
       <app-origins />
       <app-bridge />
       <app-ineco />
       <app-master />
       <app-bertrandt />
+      <app-indra />
       <app-stack />
-      <app-projects />
       <app-contact />
     </main>
   `,

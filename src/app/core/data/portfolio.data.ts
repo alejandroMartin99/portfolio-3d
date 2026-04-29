@@ -26,11 +26,14 @@ export interface SideProject {
   name: string;
   tagline: string;
   description: string;
+  story?: string;
   stack: string[];
   repo?: string;
   demo?: string;
   /** Visual hint for the 3D scene */
   visual: 'finance' | 'fitness' | 'travel';
+  /** App-store style screenshots (paths under /public). */
+  screens?: { src: string; caption: string }[];
 }
 
 export interface ContactLink {
@@ -50,6 +53,37 @@ export const profile = {
   /** Hero subtitle — the one-liner that defines the portfolio. */
   oneLiner: 'I build software for the skies.',
   resumeUrl: '/resume.pdf' // TODO: place a PDF in /public/resume.pdf
+};
+
+/**
+ * Bio — short narrative that follows the hero.
+ * Frames who Alejandro is, his current role, and the AI focus.
+ */
+export const bio = {
+  eyebrow: 'About',
+  title: 'Senior Engineer at the intersection of aerospace, data and AI.',
+  paragraphs: [
+    `I’m an aerospace engineer who fell for data. What started as a thesis
+    on big-data techniques for airport arrivals became a five-year career
+    turning aviation’s mountain of unstructured data into models, dashboards
+    and interfaces that operators actually trust in real time.`,
+    `Today I work as a Senior Engineer at <strong>Indra</strong>, where I
+    lead AI-driven projects integrating LLMs, RAG pipelines and agentic
+    workflows into industrial-grade products. I also collaborate on
+    <strong>SESAR</strong>, a European research programme, and on
+    Microsoft <strong>Fabric</strong> integrations for large-scale data
+    platforms.`,
+    `Before that I led the Angular front-end of <strong>eMIT</strong> on
+    the Eurofighter programme at Bertrandt for Airbus, and built ML and
+    data pipelines for ENAIRE air-traffic operations at INECO. I move
+    comfortably between aerospace engineering, data science and
+    front-end — and I look for problems where the three meet.`
+  ],
+  highlights: [
+    { label: 'Years in industry', value: '5+' },
+    { label: 'Programmes shipped', value: 'Eurofighter · A400M · ENAIRE' },
+    { label: 'Current focus', value: 'AI · LLMs · Microsoft Fabric' }
+  ]
 };
 
 export const education: Education[] = [
@@ -73,20 +107,45 @@ export const education: Education[] = [
 
 export const experience: ExperienceRole[] = [
   {
+    company: 'Indra',
+    role: 'Senior Engineer — AI & Data Platforms',
+    period: 'Nov 2025 — Present',
+    location: 'Madrid',
+    bullets: [
+      'Leading AI-driven product work — LLM integrations, RAG pipelines, agentic workflows for industrial-grade systems.',
+      'Collaborating on SESAR, a European research programme on autonomous and intelligent systems.',
+      'Microsoft Fabric integrations for unified data engineering, BI and AI on a single governed platform.',
+      'Architecture decisions across data, ML and frontend — bridging research and production.'
+    ],
+    stack: ['Python', 'TypeScript', 'LLMs', 'RAG', 'Microsoft Fabric', 'Azure', 'Angular']
+  },
+  {
     company: 'Bertrandt Group',
-    client: 'Airbus',
-    role: 'Aerospace Data Management Engineer',
-    period: 'Aug 2023 — Present',
+    client: 'Airbus — Eurofighter',
+    role: 'Lead Frontend (eMIT) — Eurofighter programme',
+    period: 'Aug 2023 — Nov 2025',
     location: 'Getafe, Madrid',
     bullets: [
-      'Lead front-end development of eMIT (Eurofighter program) in Angular — TypeScript, RxJS, custom UI for technical operators.',
-      'Manage and structure large volumes of Airbus technical documentation: Service Bulletins, AOTs, Findings, IRF/RESAF reports, Concessions and Manufacturing Non-Conformities.',
-      'Built internal A400M retrofit tracking tool — interactive UI with real-time data sync.',
-      'Backend integration with FastAPI; ETL pipelines using Pandas and NumPy for data validation.',
-      'Automated PDF parsing of large-scale aerospace data with Camelot, Tabula and PyMuPDF.',
-      'CI/CD with GitHub Actions, Git workflows, agile (Jira) sprint coordination.'
+      'Lead front-end development of eMIT in Angular (TypeScript, RxJS) — the maintenance interface used by Eurofighter technical operators.',
+      'Designed and built component libraries, complex tables and dashboards optimised for high-density operational data.',
+      'CI/CD with GitHub Actions, Git workflows, Agile (Jira) sprint coordination across distributed teams.',
+      'Backend integration with FastAPI; ETL pipelines (Pandas / NumPy) feeding the UI in real time.'
     ],
-    stack: ['Angular', 'TypeScript', 'Python', 'FastAPI', 'Pandas', 'NumPy', 'GitHub Actions', 'Jira']
+    stack: ['Angular', 'TypeScript', 'RxJS', 'FastAPI', 'GitHub Actions', 'Jira']
+  },
+  {
+    company: 'Bertrandt Group',
+    client: 'Airbus — A400M',
+    role: 'Aerospace Data Management — A400M retrofit',
+    period: 'Aug 2023 — Nov 2025',
+    location: 'Getafe, Madrid',
+    bullets: [
+      'Built an internal tracking tool for the A400M retrofit programme — interactive UI with real-time data sync.',
+      'Managed and structured large volumes of Airbus technical documentation: Service Bulletins, AOTs, Findings, IRF/RESAF, Concessions and Manufacturing Non-Conformities.',
+      'Automated PDF parsing of aerospace data with Camelot, Tabula and PyMuPDF.',
+      'ETL pipelines on Pandas / NumPy for validation and transformation of complex airframe records.'
+    ],
+    stack: ['Angular', 'Python', 'Pandas', 'PyMuPDF', 'Camelot', 'Tabula']
   },
   {
     company: 'INECO',
@@ -177,30 +236,39 @@ export const stackGroups: { label: string; items: string[] }[] = [
 export const sideProjects: SideProject[] = [
   {
     name: 'BankaAppTracker',
-    tagline: 'Personal banking & expense tracking',
+    tagline: 'Personal banking & expense tracking, reinvented.',
     description:
-      'A personal finance tracker that aggregates accounts and visualises spending patterns. Built to scratch a personal itch and explore client-side data viz.',
-    stack: ['Python','Angular','Supabase','Render','Vercel'], // TODO: confirm stack
+      'A personal finance tracker that aggregates accounts, models cashflow, and visualises spending patterns across categories.',
+    story:
+      'Built to scratch a personal itch — and to push client-side data visualisation. Five integrated views: a unified summary, deep expense breakdowns, investment tracking, mortgage projections, and rich charting.',
+    stack: ['Angular', 'TypeScript', 'Python', 'Supabase', 'Render', 'Vercel'],
     demo: 'https://banka-app-tracker.vercel.app/login',
     repo: 'https://github.com/alejandroMartin99/BankaAppTracker',
-    visual: 'finance'
+    visual: 'finance',
+    screens: [
+      { src: 'projects/BankaApp/Resumen.png',   caption: 'Summary' },
+      { src: 'projects/BankaApp/Charts.png',    caption: 'Charts' },
+      { src: 'projects/BankaApp/Gastos.png',    caption: 'Expenses' },
+      { src: 'projects/BankaApp/Inversion.png', caption: 'Investments' },
+      { src: 'projects/BankaApp/Hipotecas.png', caption: 'Mortgages' }
+    ]
   },
   {
     name: 'Gymio',
-    tagline: 'Workout & training tracker',
+    tagline: 'Workout & progressive-overload tracker.',
     description:
       'Fitness companion app to log workouts, track progressive overload and surface trends across training cycles.',
-    stack: ['Angular', 'TypeScript','Supabase','Render','Vercel'], // TODO: confirm stack
+    stack: ['Angular', 'TypeScript', 'Supabase', 'Render', 'Vercel'],
     demo: 'https://gymio-kappa.vercel.app/login',
     repo: 'https://github.com/alejandroMartin99/Gymio',
     visual: 'fitness'
   },
   {
     name: 'Endless Travels',
-    tagline: 'Travel discovery platform',
+    tagline: 'Travel discovery platform.',
     description:
       'Travel platform — discover, plan and share trips. Live deployed product.',
-    stack: ['Angular', 'TypeScript'], // TODO: confirm stack
+    stack: ['Angular', 'TypeScript', 'Supabase'],
     demo: 'https://endless-travels.com/',
     repo: 'https://github.com/alejandroMartin99/endless-travels',
     visual: 'travel'
@@ -212,7 +280,8 @@ export const sideProjects: SideProject[] = [
  * TODO — confirm public email Alejandro wants displayed.
  */
 export const contact: ContactLink[] = [
-  { label: 'Email', href: 'mailto:alexmiglesias@gmail.com', type: 'email' }, // TODO: confirm
+  { label: 'Email', href: 'mailto:alexmiglesias@gmail.com', type: 'email' },
+  { label: 'Phone', href: 'tel:+34649619103', type: 'other' },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/alejandro-mart%C3%ADn-iglesias-33381a164/',
@@ -223,15 +292,17 @@ export const contact: ContactLink[] = [
 
 /** The narrative chapters used to drive scroll animations and nav */
 export const chapters = [
-  { id: 'hero', label: '00 / Intro' },
-  { id: 'origins', label: '01 / Origins' },
-  { id: 'bridge', label: '02 / The Bridge' },
-  { id: 'ineco', label: '03 / Air Traffic & Data' },
-  { id: 'master', label: '04 / Master’s' },
-  { id: 'bertrandt', label: '05 / Eurofighter' },
-  { id: 'stack', label: '06 / Stack' },
-  { id: 'projects', label: '07 / Side Projects' },
-  { id: 'contact', label: '08 / Contact' }
+  { id: 'hero',      label: '00 / Intro' },
+  { id: 'bio',       label: '01 / Bio' },
+  { id: 'projects',  label: '02 / Side Projects' },
+  { id: 'origins',   label: '03 / Origins' },
+  { id: 'bridge',    label: '04 / The Bridge' },
+  { id: 'ineco',     label: '05 / Air Traffic & Data' },
+  { id: 'master',    label: '06 / Master’s' },
+  { id: 'bertrandt', label: '07 / Bertrandt — Airbus' },
+  { id: 'indra',     label: '08 / Indra — AI' },
+  { id: 'stack',     label: '09 / Stack' },
+  { id: 'contact',   label: '10 / Contact' }
 ] as const;
 
 export type ChapterId = (typeof chapters)[number]['id'];
