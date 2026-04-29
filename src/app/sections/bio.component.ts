@@ -5,7 +5,6 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
 
 /**
  * Bio — short narrative right after the hero.
- * Frames who Alejandro is now, his AI focus and current senior role.
  */
 @Component({
   selector: 'app-bio',
@@ -15,8 +14,11 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
   template: `
     <section id="bio" class="bio">
       <div class="container content">
-        <p class="eyebrow" appReveal>{{ bio.eyebrow }}</p>
-        <h2 class="title" appReveal>{{ bio.title }}</h2>
+        <p class="eyebrow" appReveal>01 / {{ bio.eyebrow }}</p>
+        <h2 class="title" appReveal>
+          Senior Engineer at the intersection of
+          <em>aerospace, data and AI.</em>
+        </h2>
 
         <div class="body">
           @for (p of bio.paragraphs; track p) {
@@ -24,9 +26,9 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
           }
         </div>
 
-        <ul class="highlights">
+        <ul class="highlights" appReveal>
           @for (h of bio.highlights; track h.label) {
-            <li class="hl" appReveal>
+            <li class="hl">
               <span class="hl-label mono">{{ h.label }}</span>
               <span class="hl-value">{{ h.value }}</span>
             </li>
@@ -38,20 +40,9 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
   styles: [
     `
       :host { display: block; }
-      .bio {
-        position: relative;
-        padding: clamp(6rem, 12vh, 9rem) 0;
-      }
-      .content { max-width: 1080px; }
-      .eyebrow {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--accent);
-      }
+      .bio { position: relative; }
       .title {
-        margin-top: 1.25rem;
+        margin-top: 1.5rem;
         font-size: clamp(2rem, 4.2vw, 3.4rem);
         font-weight: 300;
         letter-spacing: -0.025em;
@@ -59,34 +50,51 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         max-width: 26ch;
         color: var(--fg);
       }
+      .title em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--accent);
+        display: inline;
+      }
+
       .body {
         margin-top: 3rem;
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 2rem 3rem;
-        max-width: 100%;
       }
       .para {
-        font-size: 1.02rem;
+        font-size: 1rem;
         line-height: 1.7;
         color: var(--fg-muted);
-        max-width: 52ch;
+        max-width: none;
       }
       .para :global(strong),
       .para strong {
         color: var(--fg);
         font-weight: 500;
       }
-      @media (max-width: 900px) {
-        .body { grid-template-columns: 1fr; gap: 1.5rem; }
+      @media (max-width: 1024px) {
+        .body { grid-template-columns: 1fr 1fr; }
       }
+      @media (max-width: 720px) {
+        .body { grid-template-columns: 1fr; gap: 1.25rem; }
+      }
+
       .highlights {
         margin: 4rem 0 0;
         padding: 2.5rem 0 0;
         border-top: 1px solid var(--line);
         list-style: none;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 2rem;
+      }
+      @media (max-width: 980px) {
+        .highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 520px) {
+        .highlights { grid-template-columns: 1fr; gap: 1.25rem; }
       }
       .hl {
         display: flex;
@@ -94,16 +102,16 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         gap: 0.5rem;
       }
       .hl-label {
-        font-size: 0.7rem;
-        letter-spacing: 0.18em;
+        font-size: 0.66rem;
+        letter-spacing: 0.22em;
         text-transform: uppercase;
         color: var(--fg-muted);
       }
       .hl-value {
-        font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+        font-size: clamp(0.98rem, 1.4vw, 1.15rem);
         color: var(--fg);
-        line-height: 1.35;
-        letter-spacing: -0.01em;
+        line-height: 1.4;
+        letter-spacing: -0.005em;
       }
     `
   ]

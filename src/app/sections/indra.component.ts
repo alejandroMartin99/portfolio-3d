@@ -4,7 +4,7 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
 
 /**
  * Indra — current role (Senior Engineer, AI + SESAR + Fabric).
- * Sits AFTER Bertrandt in chronological storytelling.
+ * Same numbered-step pattern as INECO and Bertrandt.
  */
 @Component({
   selector: 'app-indra',
@@ -22,46 +22,34 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
           Senior Engineer at Indra since November 2025 — leading AI-driven
           product work: <strong class="accent">LLM integrations</strong>,
           <strong class="accent">RAG pipelines</strong>, and agentic
-          workflows applied to industrial-grade systems. I also collaborate
-          on <strong>SESAR</strong>, a European research programme, and on
-          Microsoft <strong>Fabric</strong> integrations for unified data
-          and BI platforms.
+          workflows applied to industrial-grade systems. Contributor to
+          <strong>SESAR</strong> programmes and Microsoft <strong>Fabric</strong>
+          integrations for unified data and BI platforms.
         </p>
 
-        <article class="role-card" appReveal>
-          <header>
-            <h3>{{ role.role }}</h3>
-            <p class="mono meta">{{ role.company }} · {{ role.period }}</p>
-            <p class="mono location">{{ role.location }}</p>
-          </header>
-          <ul>
-            @for (b of role.bullets; track b) {
-              <li>{{ b }}</li>
-            }
-          </ul>
-          <div class="tags">
-            @for (s of role.stack; track s) {
-              <span class="tag mono">{{ s }}</span>
-            }
-          </div>
-        </article>
-
-        <div class="badges" appReveal>
-          <div class="badge">
-            <span class="badge-label mono">Programme</span>
-            <span class="badge-value">SESAR</span>
-            <span class="badge-sub">European research</span>
-          </div>
-          <div class="badge">
-            <span class="badge-label mono">Platform</span>
-            <span class="badge-value">Microsoft Fabric</span>
-            <span class="badge-sub">Unified data & BI</span>
-          </div>
-          <div class="badge">
-            <span class="badge-label mono">Focus</span>
-            <span class="badge-value">LLMs · RAG · Agents</span>
-            <span class="badge-sub">Production-grade AI</span>
-          </div>
+        <div class="role-grid">
+          @for (focus of focuses; track focus.title; let i = $index) {
+            <article class="role" appReveal>
+              <span class="index mono">0{{ i + 1 }}</span>
+              <header>
+                <h3>{{ focus.title }}</h3>
+                <p class="mono meta">
+                  <span>{{ focus.tag }} · </span>
+                  <span>{{ role.period }}</span>
+                </p>
+              </header>
+              <ul>
+                @for (b of focus.bullets; track b) {
+                  <li>{{ b }}</li>
+                }
+              </ul>
+              <div class="tags">
+                @for (s of focus.stack; track s) {
+                  <span class="tag mono">{{ s }}</span>
+                }
+              </div>
+            </article>
+          }
         </div>
       </div>
     </section>
@@ -69,14 +57,10 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
   styles: [
     `
       :host { display: block; }
-      h2 {
-        margin-top: 1.5rem;
-        max-width: 22ch;
-      }
       em { font-style: italic; font-weight: 300; color: var(--accent); }
       .lede {
         margin-top: 1.5rem;
-        font-size: 1.15rem;
+        font-size: 1.125rem;
         line-height: 1.6;
         color: var(--fg);
         max-width: 60ch;
@@ -84,101 +68,109 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
       .accent { color: var(--accent); font-weight: 500; }
       strong { color: var(--fg); font-weight: 500; }
 
-      .role-card {
+      .role-grid {
         margin-top: 4rem;
-        padding: 2.5rem;
-        border: 1px solid var(--line);
-        border-radius: 6px;
-        background: var(--bg-elev);
-        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
       }
-      .role-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        width: 80px;
-        height: 1px;
-        background: var(--accent);
+      .role {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1.5rem 2.5rem;
+        align-items: start;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid var(--line);
       }
-      header h3 { font-size: 1.4rem; font-weight: 500; }
+      .role:last-child { border-bottom: none; }
+      .index {
+        font-size: 0.7rem;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        padding-top: 0.4rem;
+      }
+      header h3 { font-size: 1.25rem; font-weight: 500; line-height: 1.35; }
       .meta {
-        margin-top: 0.5rem;
-        color: var(--fg);
+        margin-top: 0.4rem;
+        color: var(--fg-muted);
         font-size: 0.78rem;
         letter-spacing: 0.05em;
       }
-      .location {
-        color: var(--fg-muted);
-        font-size: 0.72rem;
-        letter-spacing: 0.05em;
-      }
       ul {
-        margin: 1.75rem 0;
+        grid-column: 2;
+        margin: 1rem 0 1.5rem;
         padding: 0;
         list-style: none;
       }
       li {
         position: relative;
-        padding-left: 1.2rem;
+        padding-left: 1rem;
         color: var(--fg-muted);
-        margin-bottom: 0.6rem;
-        font-size: 0.97rem;
-        line-height: 1.55;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
       li::before {
         content: '';
         position: absolute;
         left: 0;
         top: 0.7em;
-        width: 8px;
+        width: 6px;
         height: 1px;
         background: var(--accent);
       }
-      .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+      .tags {
+        grid-column: 2;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
       .tag {
         font-size: 0.7rem;
         padding: 0.3rem 0.7rem;
         border: 1px solid var(--line);
         border-radius: 999px;
-        color: var(--fg);
+        color: var(--fg-muted);
         letter-spacing: 0.05em;
       }
-
-      .badges {
-        margin-top: 3rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1rem;
-      }
-      .badge {
-        padding: 1.5rem 1.5rem;
-        border: 1px solid var(--line);
-        border-radius: 6px;
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-        background: rgba(255, 255, 255, 0.015);
-        transition: border-color 0.3s ease;
-      }
-      .badge:hover { border-color: var(--accent); }
-      .badge-label {
-        font-size: 0.66rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--fg-muted);
-      }
-      .badge-value {
-        font-size: 1.05rem;
-        color: var(--fg);
-        font-weight: 500;
-      }
-      .badge-sub {
-        font-size: 0.82rem;
-        color: var(--fg-muted);
+      @media (max-width: 720px) {
+        .role { grid-template-columns: 1fr; gap: 0.5rem; }
+        ul, .tags { grid-column: 1; }
       }
     `
   ]
 })
 export class IndraComponent {
   readonly role = experience.find((r) => r.company === 'Indra')!;
+
+  /** Three focus tracks — split the bullets into thematic groups. */
+  readonly focuses = [
+    {
+      title: 'AI products',
+      tag: 'LLM · RAG · Agents',
+      bullets: [
+        'Leading AI-driven product work: LLM integrations, RAG pipelines, and agentic workflows for industrial-grade systems.',
+        'Architecture decisions across data, ML and frontend — bridging research and production.'
+      ],
+      stack: ['Python', 'LLMs', 'RAG', 'Agents', 'TypeScript']
+    },
+    {
+      title: 'SESAR programme',
+      tag: 'European research',
+      bullets: [
+        'Contributing to SESAR — the European research programme for autonomous and intelligent ATM systems.',
+        'ATM data models, trajectory prediction and decision-support tooling.'
+      ],
+      stack: ['Python', 'ML', 'Time-series', 'ATM']
+    },
+    {
+      title: 'Microsoft Fabric',
+      tag: 'Data platform',
+      bullets: [
+        'Microsoft Fabric integrations for unified data engineering, BI and AI on a single governed platform.',
+        'Distributed data architectures connecting analytics, ML and operational reporting.'
+      ],
+      stack: ['Microsoft Fabric', 'Azure', 'Power BI', 'SQL']
+    }
+  ];
 }

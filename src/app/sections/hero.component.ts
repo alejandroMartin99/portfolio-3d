@@ -13,7 +13,8 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         <p class="eyebrow" appReveal>{{ profile.location }}</p>
 
         <h1 appReveal>
-          <span class="name">{{ profile.name }}</span>
+          <span class="name first">Alejandro</span>
+          <span class="name last">Martín Iglesias</span>
         </h1>
 
         <p class="headline" appReveal>{{ profile.headline }}</p>
@@ -80,6 +81,7 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         display: block;
         line-height: 0.95;
       }
+      .name.last { color: var(--fg-muted); font-weight: 200; }
 
       .headline {
         margin-top: 1.5rem;

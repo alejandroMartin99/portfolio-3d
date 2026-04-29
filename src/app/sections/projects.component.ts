@@ -83,8 +83,6 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
               </figure>
             }
           </div>
-          <div class="gallery-fade left" aria-hidden="true"></div>
-          <div class="gallery-fade right" aria-hidden="true"></div>
         </div>
       </article>
       }
@@ -147,11 +145,11 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
       /* ----- A project section ----- */
       .project {
         position: relative;
-        padding: 6rem 0 8rem;
+        padding: 3.5rem 0 4rem;
         border-top: 1px solid var(--line);
       }
       .project.featured {
-        padding-bottom: 10rem;
+        padding-bottom: 5rem;
       }
       .proj-header { max-width: 100%; }
       .proj-num {
@@ -235,11 +233,11 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
 
       /* ----- Apple-Store-style gallery (BankaApp) ----- */
       .gallery {
-        margin-top: 4.5rem;
+        margin-top: 3rem;
         position: relative;
         overflow-x: auto;
         overflow-y: visible;
-        padding: 1rem 0 3rem;
+        padding: 0.5rem 0 1.5rem;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
       }
@@ -331,18 +329,6 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         color: var(--fg);
         letter-spacing: -0.005em;
       }
-
-      /* Soft fade gradients to suggest scrollability */
-      .gallery-fade {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 80px;
-        pointer-events: none;
-        z-index: 2;
-      }
-      .gallery-fade.left  { left: 0;  background: linear-gradient(90deg, var(--bg) 0%, transparent 100%); }
-      .gallery-fade.right { right: 0; background: linear-gradient(270deg, var(--bg) 0%, transparent 100%); }
 
       @media (max-width: 720px) {
         .shot { width: 50vw; }

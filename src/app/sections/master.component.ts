@@ -30,6 +30,10 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
 
           <ul class="bullets">
             <li>
+              <span class="bullet-label mono">Average grade</span>
+              <span class="bullet-text"><strong>8.5 / 10</strong></span>
+            </li>
+            <li>
               <span class="bullet-label mono">Certifies</span>
               <span class="bullet-text">
                 Legal authority to sign aeronautical engineering work in Spain
@@ -56,9 +60,10 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
           <div class="thesis" appReveal>
             <p class="mono thesis-label">Final dissertation</p>
             <p class="thesis-text">
-              Continuation of the big-data line started in my undergraduate
-              thesis — applied to operational arrival management and
-              decision-support tooling for air-traffic operators.
+              AI applied to ATM operations — studying how artificial
+              intelligence can support the decisions of air-traffic
+              controllers in real time, with a focus on workload management
+              and trajectory advisory tooling.
             </p>
           </div>
         </div>

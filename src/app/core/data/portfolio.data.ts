@@ -61,7 +61,7 @@ export const profile = {
  */
 export const bio = {
   eyebrow: 'About',
-  title: 'Senior Engineer at the intersection of aerospace, data and AI.',
+  title: 'Senior Engineer at the intersection of <em>aerospace, data and AI.</em>',
   paragraphs: [
     `Aerospace engineer turned data and AI specialist. I build systems
     that turn complex, real-world data into decisions. What started as a thesis
@@ -81,7 +81,8 @@ export const bio = {
   ],
   highlights: [
     { label: 'Years in industry', value: '5+' },
-    { label: 'Programmes shipped', value: 'Eurofighter · A400M · ENAIRE' },
+    { label: 'Companies', value: 'INECO · BERTRANDT · INDRA' },
+    { label: 'Clients', value: 'ENAIRE · AIRBUS' },
     { label: 'Current focus', value: 'AI · LLMs · Microsoft Fabric' }
   ]
 };
@@ -101,7 +102,10 @@ export const education: Education[] = [
     institution: 'Universidad Europea',
     degree: "Master’s Degree in Aeronautical Engineering (qualifying degree for regulated profession)",
     period: '2022 — 2023',
-    highlights: ['Completed in parallel with full-time engineering role at INECO']
+    highlights: [
+      'Average grade: 8.5/10',
+      'Completed in parallel with full-time engineering role at INECO'
+    ]
   }
 ];
 
@@ -293,15 +297,15 @@ export const contact: ContactLink[] = [
 /** The narrative chapters used to drive scroll animations and nav */
 export const chapters = [
   { id: 'hero',      label: '00 / Intro' },
-  { id: 'bio',       label: '01 / Bio' },
-  { id: 'projects',  label: '02 / Side Projects' },
+  { id: 'bio',       label: '01 / About' },
+  { id: 'projects',  label: '02 / Selected Work' },
   { id: 'origins',   label: '03 / Origins' },
   { id: 'bridge',    label: '04 / The Bridge' },
   { id: 'ineco',     label: '05 / Air Traffic & Data' },
   { id: 'master',    label: '06 / Master’s' },
   { id: 'bertrandt', label: '07 / Bertrandt — Airbus' },
   { id: 'indra',     label: '08 / Indra — AI' },
-  { id: 'stack',     label: '09 / Stack' },
+  { id: 'stack',     label: '09 / Toolbox' },
   { id: 'contact',   label: '10 / Contact' }
 ] as const;
 
