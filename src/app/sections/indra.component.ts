@@ -3,7 +3,7 @@ import { experience } from '@core/data/portfolio.data';
 import { RevealDirective } from '@shared/directives/reveal.directive';
 
 /**
- * Indra — current role (Senior Engineer, AI + CESAR + Fabric).
+ * Indra — current role (Senior Engineer, AI + SESAR + Fabric).
  * Sits AFTER Bertrandt in chronological storytelling.
  */
 @Component({
@@ -23,7 +23,7 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
           product work: <strong class="accent">LLM integrations</strong>,
           <strong class="accent">RAG pipelines</strong>, and agentic
           workflows applied to industrial-grade systems. I also collaborate
-          on <strong>CESAR</strong>, a European research programme, and on
+          on <strong>SESAR</strong>, a European research programme, and on
           Microsoft <strong>Fabric</strong> integrations for unified data
           and BI platforms.
         </p>
@@ -49,7 +49,7 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         <div class="badges" appReveal>
           <div class="badge">
             <span class="badge-label mono">Programme</span>
-            <span class="badge-value">CESAR</span>
+            <span class="badge-value">SESAR</span>
             <span class="badge-sub">European research</span>
           </div>
           <div class="badge">

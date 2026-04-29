@@ -84,6 +84,10 @@ export class ContactComponent {
     if (link.type === 'email') return link.href.replace('mailto:', '');
     if (link.type === 'linkedin') return 'in/alejandro-martín-iglesias';
     if (link.type === 'github') return 'github.com/alejandroMartin99';
+    if (link.href.startsWith('tel:')) {
+      const num = link.href.slice(4);
+      return num.startsWith('+') ? num : '+' + num;
+    }
     return link.href.replace(/^https?:\/\//, '');
   }
 }

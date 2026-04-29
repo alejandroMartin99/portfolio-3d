@@ -55,7 +55,9 @@ export interface StageBuilder {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  00 · HERO — drifting starfield + ring "horizon"                            */
+/*  00 · HERO — premium 3-layer starfield + dual horizon rings                 */
+/*  Three particle layers create real depth/parallax. The atmosphere drifts    */
+/*  seamlessly into Bio (no scene change), so the landing feels continuous.    */
 /* -------------------------------------------------------------------------- */
 
 // New Z layout (matches reordered narrative):
@@ -68,62 +70,77 @@ const heroStage: StageBuilder = {
     const group = new Group();
     group.position.z = z;
 
-    // Starfield
-    const starCount = 1800;
-    const positions = new Float32Array(starCount * 3);
-    const sizes = new Float32Array(starCount);
-    for (let i = 0; i < starCount; i++) {
-      const r = 30 + Math.random() * 50;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      positions[i * 3 + 0] = r * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      positions[i * 3 + 2] = r * Math.cos(phi);
-      sizes[i] = Math.random() * 0.05 + 0.01;
-    }
-    const starGeom = new BufferGeometry();
-    starGeom.setAttribute('position', new BufferAttribute(positions, 3));
-    const stars = new Points(
-      starGeom,
-      new PointsMaterial({
-        color: 0xffffff,
-        size: 0.06,
-        sizeAttenuation: true,
-        transparent: true,
-        opacity: 0.85,
-        blending: AdditiveBlending,
-        depthWrite: false
-      })
-    );
-    group.add(stars);
+    // Three particle layers at increasing depth for parallax
+    type LayerSpec = { count: number; size: number; opacity: number; min: number; max: number };
+    const layerSpecs: LayerSpec[] = [
+      { count: 80,   size: 0.10, opacity: 0.85, min: 8,  max: 18 }, // close drift (sparkles)
+      { count: 420,  size: 0.06, opacity: 0.70, min: 22, max: 42 }, // mid
+      { count: 1800, size: 0.04, opacity: 0.55, min: 50, max: 95 }  // distant
+    ];
 
-    // Horizon ring (subtle accent line)
+    const layers: Points[] = [];
+    for (const spec of layerSpecs) {
+      const positions = new Float32Array(spec.count * 3);
+      for (let i = 0; i < spec.count; i++) {
+        const r = spec.min + Math.random() * (spec.max - spec.min);
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        positions[i * 3 + 0] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = r * Math.cos(phi);
+      }
+      const geom = new BufferGeometry();
+      geom.setAttribute('position', new BufferAttribute(positions, 3));
+      const points = new Points(
+        geom,
+        new PointsMaterial({
+          color: 0xffffff,
+          size: spec.size,
+          sizeAttenuation: true,
+          transparent: true,
+          opacity: spec.opacity,
+          blending: AdditiveBlending,
+          depthWrite: false
+        })
+      );
+      group.add(points);
+      layers.push(points);
+    }
+
+    // Single accent ring — the horizon line
     const ring = new Mesh(
-      new TorusGeometry(6, 0.008, 16, 200),
+      new TorusGeometry(6.5, 0.005, 16, 240),
       new MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.6 })
     );
     ring.rotation.x = Math.PI / 2;
     group.add(ring);
 
-    // Inner faint ring
-    const ring2 = new Mesh(
-      new TorusGeometry(3.2, 0.004, 12, 160),
-      new MeshBasicMaterial({ color: FG, transparent: true, opacity: 0.18 })
+    // ONE wireframe sphere — the "first sphere" of the journey, sits behind the ring
+    const sphere = new LineSegments(
+      new EdgesGeometry(new IcosahedronGeometry(3.2, 2)),
+      new LineBasicMaterial({ color: FG, transparent: true, opacity: 0.32 })
     );
-    ring2.rotation.x = Math.PI / 2;
-    group.add(ring2);
+    sphere.position.z = -3;
+    group.add(sphere);
 
     scene.add(group);
 
     return ({ localProgress, elapsed }) => {
-      stars.rotation.y = elapsed * 0.02;
-      stars.rotation.x = elapsed * 0.005;
-      ring.rotation.z = elapsed * 0.05;
-      ring2.rotation.z = -elapsed * 0.08;
-      // Fade the rings out as we move past hero
-      const fade = 1 - localProgress;
+      // Different speeds per layer = parallax depth
+      layers[0]!.rotation.y = elapsed * 0.030;
+      layers[0]!.rotation.x = elapsed * 0.012;
+      layers[1]!.rotation.y = elapsed * 0.014;
+      layers[2]!.rotation.y = elapsed * 0.005;
+      layers[2]!.rotation.x = -elapsed * 0.003;
+
+      ring.rotation.z = elapsed * 0.04;
+      sphere.rotation.x = elapsed * 0.06;
+      sphere.rotation.y = elapsed * 0.09;
+
+      // Hero elements fade smoothly as we leave — no abrupt scene change
+      const fade = 1 - Math.min(1, localProgress * 1.3);
       (ring.material as MeshBasicMaterial).opacity = 0.6 * fade;
-      (ring2.material as MeshBasicMaterial).opacity = 0.18 * fade;
+      (sphere.material as LineBasicMaterial).opacity = 0.32 * fade;
     };
   }
 };
@@ -515,7 +532,8 @@ const stackStage: StageBuilder = {
 };
 
 /* -------------------------------------------------------------------------- */
-/*  07 · PROJECTS — three slowly rotating glyphs                               */
+/*  07 · PROJECTS — minimal ambient. The HTML screenshots are the visual.      */
+/*  No floating glyphs (they bled into the hero view). Just sparse drift.      */
 /* -------------------------------------------------------------------------- */
 
 const projectsStage: StageBuilder = {
@@ -525,52 +543,32 @@ const projectsStage: StageBuilder = {
     const group = new Group();
     group.position.set(0, 0, z);
 
-    // Banka — bar-chart prism
-    const banka = new Group();
-    for (let i = 0; i < 5; i++) {
-      const b = new Mesh(
-        new BoxGeometry(0.18, 0.3 + i * 0.25, 0.18),
-        new MeshStandardMaterial({ color: ACCENT, emissive: ACCENT, emissiveIntensity: 0.3 })
-      );
-      b.position.set(-0.5 + i * 0.25, (0.3 + i * 0.25) / 2 - 0.7, 0);
-      banka.add(b);
+    const count = 180;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      positions[i * 3 + 0] = (Math.random() - 0.5) * 14;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 9;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 6;
     }
-    banka.position.set(-3, 0.3, 0);
-    group.add(banka);
-
-    // Gymio — torus knot suggesting kinetic motion
-    const gymio = new Mesh(
-      new TorusGeometry(0.5, 0.12, 16, 60),
-      new MeshStandardMaterial({ color: 0xffffff, roughness: 0.4, metalness: 0.6 })
+    const geom = new BufferGeometry();
+    geom.setAttribute('position', new BufferAttribute(positions, 3));
+    const dust = new Points(
+      geom,
+      new PointsMaterial({
+        color: 0xffffff,
+        size: 0.05,
+        transparent: true,
+        opacity: 0.35,
+        blending: AdditiveBlending,
+        depthWrite: false
+      })
     );
-    gymio.position.set(0, 0.3, 0);
-    group.add(gymio);
-
-    // Endless Travels — wireframe globe
-    const globe = new LineSegments(
-      new EdgesGeometry(new SphereGeometry(0.7, 12, 10)),
-      new LineBasicMaterial({ color: FG, transparent: true, opacity: 0.55 })
-    );
-    globe.position.set(3, 0.3, 0);
-    group.add(globe);
-
-    // Ring around the globe
-    const ring = new Mesh(
-      new TorusGeometry(0.95, 0.005, 8, 80),
-      new MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.6 })
-    );
-    ring.rotation.x = Math.PI / 3;
-    ring.position.copy(globe.position);
-    group.add(ring);
+    group.add(dust);
 
     scene.add(group);
 
     return ({ elapsed }) => {
-      banka.rotation.y = elapsed * 0.3;
-      gymio.rotation.x = elapsed * 0.6;
-      gymio.rotation.y = elapsed * 0.4;
-      globe.rotation.y = elapsed * 0.4;
-      ring.rotation.z = elapsed * 0.5;
+      dust.rotation.y = elapsed * 0.02;
     };
   }
 };
@@ -635,7 +633,9 @@ function buildGrid(size: number, divisions: number): BufferGeometry {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  01b · BIO — soft vertical pulse + horizon                                  */
+/*  01b · BIO — atmospheric drift only. NO new scene.                          */
+/*  This is a continuation of the hero's space — just sparse drifting points   */
+/*  at close-mid distance so the camera passing through still feels alive.     */
 /* -------------------------------------------------------------------------- */
 
 const bioStage: StageBuilder = {
@@ -645,50 +645,46 @@ const bioStage: StageBuilder = {
     const group = new Group();
     group.position.set(0, 0, z);
 
-    // Vertical accent line — feels like a beat between hero and projects
-    const line = new Mesh(
-      new PlaneGeometry(0.012, 5),
-      new MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0 })
-    );
-    group.add(line);
-
-    // Subtle halo of points
-    const haloCount = 60;
-    const positions = new Float32Array(haloCount * 3);
-    for (let i = 0; i < haloCount; i++) {
-      const r = 3 + Math.random() * 2;
-      const a = Math.random() * Math.PI * 2;
-      positions[i * 3 + 0] = Math.cos(a) * r;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 4;
-      positions[i * 3 + 2] = Math.sin(a) * r * 0.4;
+    // Sparse close drift — extends the hero atmosphere
+    const count = 220;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const r = 6 + Math.random() * 14;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      positions[i * 3 + 0] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      positions[i * 3 + 2] = r * Math.cos(phi) * 0.6;
     }
-    const haloGeo = new BufferGeometry();
-    haloGeo.setAttribute('position', new BufferAttribute(positions, 3));
-    const halo = new Points(
-      haloGeo,
+    const geom = new BufferGeometry();
+    geom.setAttribute('position', new BufferAttribute(positions, 3));
+    const dust = new Points(
+      geom,
       new PointsMaterial({
         color: 0xffffff,
-        size: 0.04,
+        size: 0.07,
+        sizeAttenuation: true,
         transparent: true,
-        opacity: 0.4,
+        opacity: 0.5,
         blending: AdditiveBlending,
         depthWrite: false
       })
     );
-    group.add(halo);
+    group.add(dust);
 
     scene.add(group);
 
-    return ({ localProgress, elapsed }) => {
-      halo.rotation.y = elapsed * 0.08;
-      const t = Math.sin(localProgress * Math.PI);
-      (line.material as MeshBasicMaterial).opacity = 0.55 * t;
+    return ({ elapsed }) => {
+      dust.rotation.y = elapsed * 0.018;
+      dust.rotation.x = elapsed * 0.008;
     };
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/*  08b · INDRA — neural-network-style cluster (AI focus)                      */
+/*  08b · INDRA — minimal AI signal: 1 accent point + faint connecting lines   */
+/*  Restraint: just a tiny constellation, hinting at networks without          */
+/*  occupying the camera's view. The HTML carries the meaning.                 */
 /* -------------------------------------------------------------------------- */
 
 const indraStage: StageBuilder = {
@@ -698,68 +694,63 @@ const indraStage: StageBuilder = {
     const group = new Group();
     group.position.set(0, 0, z);
 
-    // Neural lattice — three layers of nodes connected
-    const layers = 3;
-    const perLayer = 6;
-    const nodes: { mesh: Mesh; base: Vector3 }[] = [];
+    // A single accent core
+    const core = new Mesh(
+      new SphereGeometry(0.08, 16, 16),
+      new MeshStandardMaterial({
+        color: ACCENT,
+        emissive: ACCENT,
+        emissiveIntensity: 0.9
+      })
+    );
+    group.add(core);
+
+    // Six small white satellites at varying radii
+    const satellites: { mesh: Mesh; base: Vector3; speed: number; phase: number }[] = [];
     const linePts: number[] = [];
-
-    for (let l = 0; l < layers; l++) {
-      const x = (l - 1) * 1.6;
-      for (let i = 0; i < perLayer; i++) {
-        const y = (i - (perLayer - 1) / 2) * 0.6;
-        const node = new Mesh(
-          new SphereGeometry(0.06, 12, 12),
-          new MeshStandardMaterial({
-            color: l === 1 ? ACCENT : 0xffffff,
-            emissive: l === 1 ? ACCENT : 0x000000,
-            emissiveIntensity: l === 1 ? 0.7 : 0
-          })
-        );
-        node.position.set(x, y, 0);
-        group.add(node);
-        nodes.push({ mesh: node, base: new Vector3(x, y, 0) });
-      }
+    for (let i = 0; i < 6; i++) {
+      const angle = (i / 6) * Math.PI * 2;
+      const radius = 1.6 + (i % 2) * 0.4;
+      const base = new Vector3(
+        Math.cos(angle) * radius,
+        Math.sin(angle * 0.5) * 0.8,
+        Math.sin(angle) * radius
+      );
+      const sat = new Mesh(
+        new SphereGeometry(0.035, 10, 10),
+        new MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.85 })
+      );
+      sat.position.copy(base);
+      group.add(sat);
+      satellites.push({ mesh: sat, base, speed: 0.18 + Math.random() * 0.1, phase: Math.random() * Math.PI * 2 });
+      // Line from core to each satellite
+      linePts.push(0, 0, 0, base.x, base.y, base.z);
     }
 
-    // Connect layers with lines (each → next)
-    for (let i = 0; i < perLayer; i++) {
-      for (let j = 0; j < perLayer; j++) {
-        // layer 0 → 1
-        linePts.push(
-          nodes[i]!.base.x, nodes[i]!.base.y, 0,
-          nodes[perLayer + j]!.base.x, nodes[perLayer + j]!.base.y, 0
-        );
-        // layer 1 → 2
-        linePts.push(
-          nodes[perLayer + i]!.base.x, nodes[perLayer + i]!.base.y, 0,
-          nodes[2 * perLayer + j]!.base.x, nodes[2 * perLayer + j]!.base.y, 0
-        );
-      }
-    }
     const lineGeo = new BufferGeometry();
     lineGeo.setAttribute('position', new Float32BufferAttribute(linePts, 3));
     const lines = new LineSegments(
       lineGeo,
-      new LineBasicMaterial({ color: FG, transparent: true, opacity: 0.08 })
+      new LineBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.18 })
     );
     group.add(lines);
 
     scene.add(group);
 
-    return ({ elapsed, localProgress }) => {
-      group.rotation.y = elapsed * 0.12;
-      group.rotation.x = Math.sin(elapsed * 0.05) * 0.1;
-      // Pulse the central layer
-      nodes.forEach((n, idx) => {
-        const isCenter = idx >= perLayer && idx < perLayer * 2;
-        if (isCenter) {
-          const pulse = 1 + Math.sin(elapsed * 2 + idx) * 0.2;
-          n.mesh.scale.setScalar(pulse);
-        }
-        n.mesh.position.y = n.base.y + Math.sin(elapsed * 0.6 + idx) * 0.04;
+    return ({ elapsed }) => {
+      group.rotation.y = elapsed * 0.08;
+      // Soft pulse on core
+      const pulse = 1 + Math.sin(elapsed * 1.6) * 0.12;
+      core.scale.setScalar(pulse);
+      // Satellites drift slightly around their base
+      satellites.forEach((s) => {
+        const t = elapsed * s.speed + s.phase;
+        s.mesh.position.set(
+          s.base.x + Math.sin(t) * 0.05,
+          s.base.y + Math.cos(t) * 0.04,
+          s.base.z
+        );
       });
-      (lines.material as LineBasicMaterial).opacity = 0.08 + 0.15 * localProgress;
     };
   }
 };

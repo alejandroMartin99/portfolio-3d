@@ -16,11 +16,15 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
   template: `
     <section id="projects" class="projects">
       <div class="container intro">
-        <p class="eyebrow" appReveal>02 / Side Projects</p>
-        <h2 appReveal>Three things I built<br/><em>because I wanted to.</em></h2>
+        <p class="eyebrow" appReveal>02 / Selected Work</p>
+        <h2 appReveal>
+          Things I design, build and scale<br/>
+          <em>at the intersection of data and engineering.</em>
+        </h2>
         <p class="lede" appReveal>
-          Outside the day job. Each one started as a personal itch and ended
-          as a deployed product I still use.
+          Not side projects — applied experiments. Each one starts from a real problem 
+          and evolves into a production-grade solution, combining data, software 
+          engineering and product thinking.
         </p>
       </div>
 
@@ -250,7 +254,7 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
         margin: 0;
         scroll-snap-align: center;
         flex-shrink: 0;
-        width: clamp(360px, 56vw, 760px);
+        width: clamp(180px, 18vw, 260px);
         animation: fade-up 0.9s var(--ease-out) both;
       }
       @keyframes fade-up {
@@ -279,14 +283,14 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
       .browser-bar {
         display: flex;
         align-items: center;
-        gap: 0.4rem;
-        padding: 0.65rem 0.9rem;
+        gap: 0.3rem;
+        padding: 0.45rem 0.65rem;
         background: linear-gradient(180deg, #21232c 0%, #1a1c24 100%);
         border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       }
       .dot {
-        width: 11px;
-        height: 11px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         flex-shrink: 0;
       }
@@ -294,11 +298,14 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
       .dot-b { background: #febc2e; }
       .dot-c { background: #28c840; }
       .url {
-        margin-left: 0.8rem;
-        font-size: 0.68rem;
+        margin-left: 0.5rem;
+        font-size: 0.56rem;
         color: var(--fg-muted);
         opacity: 0.7;
         letter-spacing: 0.02em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .browser img {
         display: block;
@@ -338,13 +345,13 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
       .gallery-fade.right { right: 0; background: linear-gradient(270deg, var(--bg) 0%, transparent 100%); }
 
       @media (max-width: 720px) {
-        .shot { width: 86vw; }
-        .gallery-track { gap: 1rem; }
+        .shot { width: 50vw; }
+        .gallery-track { gap: 0.8rem; }
       }
     `
   ]
 })
 export class ProjectsComponent {
-  readonly banka = sideProjects.find((p) => p.name === 'Banka');
-  readonly others = sideProjects.filter((p) => p.name !== 'Banka');
+  readonly banka = sideProjects.find((p) => p.name === 'BankaAppTracker');
+  readonly others = sideProjects.filter((p) => p.name !== 'BankaAppTracker');
 }

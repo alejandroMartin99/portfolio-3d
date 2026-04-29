@@ -56,7 +56,9 @@ export class ThreeEngineService {
 
       // Scene atmosphere
       this.scene.background = null;
-      this.scene.fog = new Fog(new Color(0x0a0b0f), 30, 120);
+      // Tight fog so far stages don't bleed into the current view.
+      // Each stage feels like its own atmosphere, not a peep-hole into the next.
+      this.scene.fog = new Fog(new Color(0x0a0b0f), 18, 48);
 
       // Lighting — minimal, directional + soft ambient
       const key = new DirectionalLight(0xffffff, 1.2);
