@@ -25,43 +25,6 @@ import { RevealDirective } from '@shared/directives/reveal.directive';
           and the <strong class="accent">A400M</strong> retrofit tracking system.
         </p>
 
-        <div class="aircraft" appReveal aria-hidden="true">
-          <figure class="craft-wrap">
-            <svg class="craft" viewBox="0 0 320 120" fill="none"
-                 stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10 60 Q35 56 60 58 L240 56 Q280 58 305 60 Q280 62 240 64 L60 62 Q35 64 10 60 Z"/>
-              <path d="M250 56 Q260 50 270 56 Q260 62 250 60 Z"/>
-              <path d="M205 56 L185 38 L175 38 L195 56"/>
-              <path d="M205 64 L185 82 L175 82 L195 64"/>
-              <path d="M120 56 L60 16 L40 16 L100 56"/>
-              <path d="M120 64 L60 104 L40 104 L100 64"/>
-              <path d="M40 56 L18 30 L8 30 L30 56"/>
-              <path d="M40 64 L18 90 L8 90 L30 64"/>
-              <line x1="10" y1="60" x2="305" y2="60" stroke-dasharray="2 4" opacity="0.4"/>
-            </svg>
-            <figcaption class="craft-label mono">Eurofighter Typhoon</figcaption>
-          </figure>
-
-          <figure class="craft-wrap">
-            <svg class="craft" viewBox="0 0 320 160" fill="none"
-                 stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10 80 Q35 76 60 78 L260 76 Q295 78 312 80 Q295 82 260 84 L60 82 Q35 84 10 80 Z"/>
-              <path d="M285 76 Q298 70 310 78 Q298 84 285 80 Z"/>
-              <path d="M150 78 L60 26 L40 26 L130 78"/>
-              <path d="M150 82 L60 134 L40 134 L130 82"/>
-              <ellipse cx="60"  cy="36" rx="18" ry="3.5"/>
-              <ellipse cx="100" cy="34" rx="18" ry="3.5"/>
-              <ellipse cx="60"  cy="124" rx="18" ry="3.5"/>
-              <ellipse cx="100" cy="126" rx="18" ry="3.5"/>
-              <path d="M28 78 L8 48 L4 48 L24 78"/>
-              <path d="M28 82 L8 112 L4 112 L24 82"/>
-              <path d="M16 80 L0 60 L0 100 Z"/>
-              <line x1="10" y1="80" x2="312" y2="80" stroke-dasharray="2 4" opacity="0.4"/>
-            </svg>
-            <figcaption class="craft-label mono">Airbus A400M</figcaption>
-          </figure>
-        </div>
-
         <div class="role-grid">
           @for (role of bertrandtRoles; track role.role; let i = $index) {
             <article class="role" appReveal>
