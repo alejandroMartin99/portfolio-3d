@@ -145,30 +145,17 @@ export class IndraComponent {
 
   /** Three focus tracks — split the bullets into thematic groups. */
   readonly focuses = [
+
     {
-      title: 'AI products',
-      tag: 'LLM · RAG · Agents',
-      bullets: [
-        'Leading AI-driven product work: LLM integrations, RAG pipelines, and agentic workflows for industrial-grade systems.',
-        'Architecture decisions across data, ML and frontend — bridging research and production.'
-      ],
-      stack: ['Python', 'LLMs', 'RAG', 'Agents', 'TypeScript']
-    },
-    {
-      title: 'SESAR programme',
-      tag: 'European research',
-      bullets: [
-        'Contributing to SESAR — the European research programme for autonomous and intelligent ATM systems.',
-        'ATM data models, trajectory prediction and decision-support tooling.'
-      ],
-      stack: ['Python', 'ML', 'Time-series', 'ATM']
-    },
-    {
-      title: 'Microsoft Fabric',
+      title: 'Senior Engineer - Microsoft Fabric',
       tag: 'Data platform',
       bullets: [
-        'Microsoft Fabric integrations for unified data engineering, BI and AI on a single governed platform.',
-        'Distributed data architectures connecting analytics, ML and operational reporting.'
+      'End-to-end data platform development on Microsoft Fabric — integrating Data Engineering, Data Warehousing and BI within a unified, governed environment.',
+      'Design and implementation of ETL pipelines in Python, with automated orchestration through Fabric Pipelines.',
+      'Development of Medallion architecture (Bronze, Silver, Gold layers) enabling scalable and reliable data transformations.',
+      'Automated provisioning and maintenance of Data Lakes (OneLake) and Data Warehouses within Fabric.',
+      'Data modeling in Power BI using star schema design, including semantic models and optimized DAX measures.',
+      'Integration of AI capabilities via MCP (Model Context Protocol) to automate reporting workflows and enhance Power BI assets.'
       ],
       stack: ['Microsoft Fabric', 'Azure', 'Power BI', 'SQL']
     }
