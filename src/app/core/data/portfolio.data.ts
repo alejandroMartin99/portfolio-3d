@@ -250,11 +250,24 @@ export const sideProjects: SideProject[] = [
     repo: 'https://github.com/alejandroMartin99/BankaAppTracker',
     visual: 'finance',
     screens: [
-      { src: 'projects/BankaApp/Resumen.png',   caption: 'Summary' },
-      { src: 'projects/BankaApp/Charts.png',    caption: 'Charts' },
-      { src: 'projects/BankaApp/Gastos.png',    caption: 'Expenses' },
-      { src: 'projects/BankaApp/Inversion.png', caption: 'Investments' },
-      { src: 'projects/BankaApp/Hipotecas.png', caption: 'Mortgages' }
+      { src: 'projects/BankaApp/BA_Resumen.png',              caption: 'Summary' },
+      { src: 'projects/BankaApp/BA_Resumen_exp.png',          caption: 'Summary — expanded' },
+      { src: 'projects/BankaApp/BA_Charts.png',               caption: 'Charts' },
+      { src: 'projects/BankaApp/BA_Charts_CAT.png',           caption: 'Charts — categories' },
+      { src: 'projects/BankaApp/BA_Charts_SUBCAT.png',        caption: 'Charts — subcategories' },
+      { src: 'projects/BankaApp/BA_Charts_SUBCAT_Details.png', caption: 'Subcategory detail' },
+      { src: 'projects/BankaApp/BA_Charts_evol.png',          caption: 'Charts — evolution' },
+      { src: 'projects/BankaApp/BA_Gastos.png',               caption: 'Expenses' },
+      { src: 'projects/BankaApp/BA_Salario_Neto_Bruto.png',   caption: 'Net vs gross salary' },
+      { src: 'projects/BankaApp/BA_Compartido.png',           caption: 'Shared accounts' },
+      { src: 'projects/BankaApp/BA_Compartido_open.png',      caption: 'Shared — detail' },
+      { src: 'projects/BankaApp/BA_Inversion.png',            caption: 'Investments' },
+      { src: 'projects/BankaApp/BA_Inversion_Detail.png',     caption: 'Investment detail' },
+      { src: 'projects/BankaApp/BA_Inversion_ISIN.png',       caption: 'Investment — ISIN lookup' },
+      { src: 'projects/BankaApp/BA_Hipoteca.png',             caption: 'Mortgage' },
+      { src: 'projects/BankaApp/BA_Hipoteca_Simu.png',        caption: 'Mortgage simulator' },
+      { src: 'projects/BankaApp/BA_Hipoteca_Amortizacion.png', caption: 'Amortisation schedule' },
+      { src: 'projects/BankaApp/BA_Pagos_Recurrentes.png',    caption: 'Recurring payments' }
     ]
   },
   {
